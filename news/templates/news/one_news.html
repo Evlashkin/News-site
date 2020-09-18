@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+
+{% block content %}
+<div class="card text mb-3">
+    <div class="card-header">
+        <strong>Категория:</strong> <em>{{ title.category }}</em>
+    </div>
+    <div class="card-body">
+        <div class="media">
+            {% if item.photo %}
+            <img src="{{ title.photo.url }}" alt="" width="300" class="mr-3">
+            {% else %}
+            <img src="https://picsum.photos/id/1006/300/270" alt="" class="mr-3">
+            {% endif %}
+            <div class="media-body mb-3">
+                <h5 class="card-title">{{ title.news_title }}</h5>
+                <p class="card-text">{{ title.content }}</p>
+                <a href="/" class="btn btn-primary">Вернуться на главную</a>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <div class="container">
+                <div class="row">
+                    <div class="col-8">
+                        {{ item.pub_date }}
+                    </div>
+                    <div class="col-4">
+                        Количество просмотров: {{count_view}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
