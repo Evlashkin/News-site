@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %} Добавление новости {% endblock %}
+{% block title %} Отправка сообщения {% endblock %}
 
 {% block content %}
     <h3> Отправка сообщения </h3>
     <form action="{% url 'send_message' %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary btn-block"> Отправить сообщение </button>
+        <button type="submit" class="btn btn-primary btn-dark"> Отправить сообщение </button>
     </form>
 
 {% endblock %}
