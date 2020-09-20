@@ -1,9 +1,21 @@
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.http import HttpResponse
+from django.views.generic import ListView
 
 from .models import *
 from .forms import *
+
+
+class HomePage(ListView):
+    model = News
+    context_object_name = 'news'
+    extra_context = {'title': 'Списко новостей'}
+
+    def get_queryset(self):
+        news = News.objects.filter(is_published=True)
+        return news
+
 
 
 def index(request):
