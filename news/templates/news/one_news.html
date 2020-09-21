@@ -9,18 +9,16 @@
         <strong>Категория:</strong> <em>{{ title.category }}</em>
     </div>
     <div class="card-body">
-        <div class="media">
-            {% if item.photo %}
-            <img src="{{ title.photo.url }}" alt="" width="300" class="mr-3">
+            {% if title.photo %}
+            <img src="{{ title.photo.url }}" alt="" width="300" class="float-left mr-3">
             {% else %}
-            <img src="https://picsum.photos/id/1006/300/270" alt="" class="mr-3">
+            <img src="https://picsum.photos/id/1006/300/270" alt="" class="float-left mr-3">
             {% endif %}
             <div class="media-body mb-3">
-                <h5 class="card-title">{{ title.news_title }}</h5>
-                <p class="card-text">{{ title.content }}</p>
+                <h4 align="center" class="card-title">{{ title.news_title }}</h4>
+                <p align="justify" class="card-text">{{ title.content }}</p>
                 <a href="/" class="btn btn-primary">Вернуться на главную</a>
             </div>
-        </div>
         <div class="card-footer text-muted">
             <div class="container">
                 <div class="row">

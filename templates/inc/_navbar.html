@@ -8,7 +8,9 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link active" href="{% url 'home' %}">Домой<span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" href="{% url 'add_news' %}">Добавить новость</a>
+            {% comment %}
             <a class="nav-item nav-link" href="{% url 'send_message' %}">Напишите нам</a>
+            {% endcomment %}
         </div>
     </div>
 </nav>

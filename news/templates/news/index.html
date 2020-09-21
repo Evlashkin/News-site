@@ -18,7 +18,7 @@
             {% endif %}
             <div class="media-body mb-3">
                 <h5 class="card-title">{{ item.news_title }}</h5>
-                <p class="card-text">{{ item.content|truncatewords:70 }}</p>
+                <p align="justify" class="card-text">{{ item.content|truncatewords:70 }}</p>
                 <a href="{{ item.get_absolute_url }}" class="btn btn-primary">Читать полностью</a>
             </div>
         </div>
