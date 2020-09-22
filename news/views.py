@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
-from django.core.mail import send_mail
-from django.http import HttpResponse
+# from django.shortcuts import render, redirect
+# from django.core.mail import send_mail
+# from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
 from .forms import *
 
@@ -13,7 +13,7 @@ class HomePage(ListView):
     template_name = 'news/homepage.html'
 
     def get_queryset(self):
-        news = News.objects.filter(is_published=True)
+        news = News.objects.filter(is_published=True).select_related('category')
         return news
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -29,7 +29,7 @@ class GetCategory(ListView):
     allow_empty = False
 
     def get_queryset(self):
-        return News.objects.filter(is_published=True, category_id=self.kwargs['category_id'])
+        return News.objects.filter(is_published=True, category_id=self.kwargs['category_id']).select_related('category')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(GetCategory, self).get_context_data(**kwargs)
@@ -41,6 +41,7 @@ class OneNews(DetailView):
     model = News
     template_name = 'news/one_news.html'
     context_object_name = 'title'
+
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(OneNews, self).get_context_data(**kwargs)
@@ -55,9 +56,10 @@ def count_view(self):
     return count_views
 
 
-class NewNews(CreateView):
+class NewNews(LoginRequiredMixin, CreateView):
     form_class = NewsForm
     template_name = 'news/add_news.html'
+    raise_exception = True
 
 
 # def index(request):
