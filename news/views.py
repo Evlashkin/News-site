@@ -1,16 +1,39 @@
-# from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
 # from django.core.mail import send_mail
 # from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+
 from .models import *
 from .forms import *
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Регистрация прошла успешно')
+            return redirect('login')
+        else:
+            messages.error(request, 'Ошибка регистрации')
+    else:
+        form = UserCreationForm()
+    return render(request, 'news/register.html', {'form': form})
+
+
+def login(request):
+    form = 'form'
+    return render(request, 'news/login.html', {'form': form})
 
 
 class HomePage(ListView):
     model = News
     context_object_name = 'news'
     template_name = 'news/homepage.html'
+    paginate_by = 2
 
     def get_queryset(self):
         news = News.objects.filter(is_published=True).select_related('category')
@@ -27,6 +50,7 @@ class GetCategory(ListView):
     template_name = 'news/homepage.html'
     context_object_name = 'news'
     allow_empty = False
+    paginate_by = 2
 
     def get_queryset(self):
         return News.objects.filter(is_published=True, category_id=self.kwargs['category_id']).select_related('category')
