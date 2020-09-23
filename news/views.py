@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 # from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, logout
 from django.contrib import messages
 
 from .models import *
@@ -12,7 +12,7 @@ from .forms import *
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Регистрация прошла успешно')
@@ -20,20 +20,32 @@ def register(request):
         else:
             messages.error(request, 'Ошибка регистрации')
     else:
-        form = UserCreationForm()
+        form = UserRegisterForm()
     return render(request, 'news/register.html', {'form': form})
 
 
-def login(request):
-    form = 'form'
-    return render(request, 'news/login.html', {'form': form})
+def user_login(request):
+    if request.method == 'POST':
+        form = UserAuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserAuthenticationForm()
+    return render(request, 'news/user_login.html', {'form': form})
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('login')
 
 
 class HomePage(ListView):
     model = News
     context_object_name = 'news'
     template_name = 'news/homepage.html'
-    paginate_by = 2
+    paginate_by = 10
 
     def get_queryset(self):
         news = News.objects.filter(is_published=True).select_related('category')
@@ -50,7 +62,7 @@ class GetCategory(ListView):
     template_name = 'news/homepage.html'
     context_object_name = 'news'
     allow_empty = False
-    paginate_by = 2
+    paginate_by = 10
 
     def get_queryset(self):
         return News.objects.filter(is_published=True, category_id=self.kwargs['category_id']).select_related('category')

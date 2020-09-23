@@ -16,7 +16,11 @@
         </div>
     </div>
     <span class="navbar-nav">
+        {% if request.user.is_authenticated %}
+            <p class="nav-item nav-link active"> Добро пожаловать, {{ user.username }} |</p> <a class="nav-item nav-link active" href="{% url 'logout' %}"> Выход </a>
+        {% else %}
             <a class="nav-item nav-link active" href="{% url 'register' %}"> Регистрация</a>
             <a class="nav-item nav-link active" href="{% url 'login' %}"> Вход </a>
+        {% endif %}
     </span>
 </nav>
