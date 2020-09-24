@@ -1,10 +1,12 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from news.models import News, Category
+from .models import *
+from .forms import *
 
 
 class NewsAdmin(admin.ModelAdmin):
+    form = NewsAdminForm
     fields = ['news_title', 'content', 'photo', 'category', 'is_published']
     list_display = ('news_title', 'pub_date', 'category', 'get_photo', 'count_view', 'is_published')
     list_display_links = ('news_title', 'pub_date', 'category', 'count_view')
@@ -18,6 +20,4 @@ class NewsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(News, NewsAdmin)
-
-
 admin.site.register(Category)

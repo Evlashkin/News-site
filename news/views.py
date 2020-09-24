@@ -79,7 +79,6 @@ class OneNews(DetailView):
     template_name = 'news/one_news.html'
     context_object_name = 'title'
 
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(OneNews, self).get_context_data(**kwargs)
         context['count_view'] = count_view(self).count_view

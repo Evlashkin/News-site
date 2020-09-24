@@ -6,6 +6,7 @@
     <h3> Добавление новости </h3>
     <form action="{% url 'add_news' %}" method="post">
         {% csrf_token %}
+        {{ myform.media }}
         {{ form.as_p }}
         {% comment %}
         <div class="form-group">

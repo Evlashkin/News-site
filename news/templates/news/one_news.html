@@ -16,7 +16,7 @@
             {% endif %}
             <div class="media-body mb-3">
                 <h4 align="center" class="card-title">{{ title.news_title }}</h4>
-                <p align="justify" class="card-text">{{ title.content }}</p>
+                <p align="justify" class="card-text">{{ title.content|safe }}</p>
                 <a href="/" class="btn btn-primary">Вернуться на главную</a>
             </div>
         <div class="card-footer text-muted">
